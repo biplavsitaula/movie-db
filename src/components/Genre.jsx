@@ -14,7 +14,7 @@ const GenreComponent = () => {
 
 
     return (
-        <div className="container mx-auto flex scrollbar-hide  overflow-x-auto  py-4">
+        <div className="container mx-auto flex scrollbar-hide  overflow-x-auto my-4">
             {genre.map(gen => (
                 <button
                     key={gen}

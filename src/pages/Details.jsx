@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router';
 import useDetails from '../hooks/useDetails';
 import { Star } from 'lucide-react';
 import Spinner from '../components/Spinner';
+import Error from '../components/Error';
 
 function Details() {
     const [params, setParams] = useSearchParams("");
@@ -22,10 +23,10 @@ function Details() {
     return (
         <div className='container mx-auto p-4'>
             {loading && <Spinner />}
-            {error && <p className='text-bg-500/50'>Error: {error.message}</p>}
+            {error && <Error>{error.message}</Error>}
             {!loading && data?.data?.movie && (
-                <div className='text-white overflow-clip flex bg-black rounded-lg shadow-lg'>
-                    <img src={data.data.movie.large_cover_image} alt={data.data.movie.title_long} className='w-1/2 h-auto' />
+                <div className='text-white overflow-clip flex-col md:flex-row flex bg-black rounded-lg shadow-lg'>
+                    <img src={data.data.movie.large_cover_image} alt={data.data.movie.title_long} className='w-full md:w-1/2 h-auto' />
 
                     <div className='p-4 flex flex-col'>
                         <div className='flex items-center gap-1 my-2'>

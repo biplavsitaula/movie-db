@@ -5,6 +5,8 @@ import MovieCard from '../components/MovieCard';
 import MovieCardSkeleton from '../components/MovieCardSkeleton';
 import { useSearchParams } from 'react-router';
 import GenreComponent from '../components/Genre';
+import Error from '../components/Error';
+import { MoveLeft, MoveRight } from 'lucide-react';
 
 function Home() {
     const [params, setParams] = useSearchParams("");
@@ -56,7 +58,7 @@ function Home() {
                     )}
             </div>
 
-            {error && <p className='bg-red-500/50 border text-black border-red-500 p-2 rounded'>Error: {error.message}</p>}
+            {error && <Error>{error.message}</Error>}
 
             {!loading && data?.data?.movies?.length > 0 && <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                 {data?.data?.movies?.map(movie => (
@@ -66,13 +68,13 @@ function Home() {
 
             {!error && !loading && data?.data?.movie_count === 0 && <p className='text-center'>No movies found</p>}
 
-            {(data?.data?.movie_count > 10) && <div className='flex items-center justify-center mt-4'>
-                <button disabled={data?.data?.page_number == 1} onClick={() => handlePageChange(pageParam - 1)} className=' px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Prev</button>
+            {(data?.data?.movie_count > 10) && <div className='flex gap-2 flex-wrap items-center justify-center my-4'>
+                <button disabled={data?.data?.page_number == 1} onClick={() => handlePageChange(pageParam - 1)} className='px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'><MoveLeft /></button>
                 {pageNumbers.map((num) => (
                     <button
                         key={num}
                         onClick={() => handlePageChange(num)}
-                        className={`px-4 mx-2 py-2 rounded-lg cursor-pointer ${num === pageParam
+                        className={`px-4 py-2 rounded-lg cursor-pointer ${num === pageParam
                             ? 'bg-black text-white'
                             : 'bg-red-500 text-white'
                             }`}
@@ -82,7 +84,7 @@ function Home() {
                 ))}
                 <button
                     disabled={data?.data?.page_number == Math.round(data?.data?.movie_count / 10)}
-                    onClick={() => handlePageChange(pageParam + 1)} className='px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Next</button>
+                    onClick={() => handlePageChange(pageParam + 1)} className='px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'><MoveRight /></button>
             </div>}
         </div>
     )
