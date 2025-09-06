@@ -1,7 +1,6 @@
-import { Clapperboard, Heart, House } from 'lucide-react'
+import { Clapperboard, Heart, HeartIcon, House, HouseIcon, } from 'lucide-react'
 import React from 'react'
 import { Link, useLocation } from 'react-router'
-import SearchComponent from './Search'
 
 function Navbar() {
     const location = useLocation()
@@ -15,11 +14,10 @@ function Navbar() {
                 <Link to='/' >
                     <Clapperboard className='block md:hidden' />
                 </Link>
-                <div className="ml-auto items-center flex gap-4">
-                    <Link to="/" className={(location.pathname === '/' ? 'text-red-500' : 'text-white')}>
-                        <House />
+                <div className="ml-auto text-white items-center flex gap-4">
+                    <Link to="/" > <House className={location.pathname == '/' && 'text-red-500'} />
                     </Link>
-                    <Link to="/favorite" className={(location.pathname == '/favorite' ? "text-red-500" : "text-white")}><Heart />
+                    <Link to="/favorites" ><Heart className={location.pathname == '/favorites' && 'text-red-500'} />
                     </Link>
                 </div>
             </div>

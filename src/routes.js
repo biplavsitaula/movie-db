@@ -2,6 +2,7 @@ import App from "./App";
 import Home from "./pages/Home";
 import Favorite from "./pages/Favorite";
 import { createBrowserRouter } from "react-router";
+import Details from "./pages/Details";
 
 const routes = createBrowserRouter([
   {
@@ -13,8 +14,12 @@ const routes = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "favorite",
+        path: "favorites",
         Component: Favorite,
+      },
+      {
+        path: ":id",
+        Component: Details,
       },
     ],
   },

@@ -1,35 +1,33 @@
-import { useEffect, useState } from "react";
-import { fetchMovies } from "../services/movies";
+import { useState, useEffect } from "react";
 
-function useMovies({ search = "", page = 1, genre = "" } = {}) {
-
-  const [movies, setMovies] = useState(null);
+function useDetails( id ) {
+  const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let isCancelled = false;
-
     async function load() {
       try {
         setLoading(true);
-        const data = await fetchMovies({ search, page, genre });
-        if (!isCancelled) setMovies(data);
+        const response = await fetch(
+          `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
+        );
+        const data = await response.json();
+        if (!isCancelled) setDetails(data);
       } catch (err) {
         if (!isCancelled) setError(err);
       } finally {
         if (!isCancelled) setLoading(false);
       }
     }
-
     load();
-
     return () => {
       isCancelled = true;
     };
-  }, [search, page, genre]);
+  }, [id]);
 
-  return { data: movies, loading, error };
+  return { data: details, loading, error };
 }
 
-export default useMovies;
+export default useDetails;
