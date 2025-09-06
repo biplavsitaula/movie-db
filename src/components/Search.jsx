@@ -14,7 +14,7 @@ const SearchComponent = ({ searchTerm, onSearch }) => {
     return (
         <div className="flex items-center justify-center">
             <div
-                className={`flex items-center border border-gray-300 rounded-full bg-white shadow-sm overflow-hidden transition-all duration-300 ${open ? "w-86 h-10 px-2" : "w-10 h-10"
+                className={`flex items-center border border-gray-300 rounded-full bg-white shadow-sm overflow-hidden transition-all duration-300 ${open ? "w-64 h-10 px-2" : "w-10 h-10"
                     }`}
             >
                 {open ? (

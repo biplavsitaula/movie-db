@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { fetchMovieDetails } from "../services/movies";
 
-function useDetails( id ) {
+function useDetails(id) {
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,10 +11,7 @@ function useDetails( id ) {
     async function load() {
       try {
         setLoading(true);
-        const response = await fetch(
-          `https://yts.mx/api/v2/movie_details.json?movie_id=${id}`
-        );
-        const data = await response.json();
+        const data = await fetchMovieDetails(id);
         if (!isCancelled) setDetails(data);
       } catch (err) {
         if (!isCancelled) setError(err);

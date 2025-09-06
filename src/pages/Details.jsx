@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
+
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import useDetails from '../hooks/useDetails';
 import { Star } from 'lucide-react';
 import Spinner from '../components/Spinner';
@@ -37,7 +37,8 @@ function Details() {
                         </div>
                         <div className='my-2'>
                             {data.data.movie.genres.map(gen => (
-                                <button onClick={() => handleGenre(gen)} className='cursor-pointer mr-2 rounded border w-fit px-2 my-2'>
+                                <button
+                                    key={gen} onClick={() => handleGenre(gen)} className='cursor-pointer mr-2 rounded border w-fit px-2 my-2'>
                                     {gen}
                                 </button>
                             ))}

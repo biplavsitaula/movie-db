@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useMovies from '../hooks/useMovies'
 import SearchComponent from '../components/Search';
 import MovieCard from '../components/MovieCard';
 import MovieCardSkeleton from '../components/MovieCardSkeleton';
-import { generatePath, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import GenreComponent from '../components/Genre';
 
 function Home() {
@@ -29,6 +29,12 @@ function Home() {
         if (newPage > 1) newParams.set("page", newPage);
         setParams(newParams);
     };
+
+    const pageNumbers = [];
+    const totalPages = Math.round(data?.data?.movie_count / 10)
+    for (let i = pageParam - 2; i <= pageParam + 2; i++) {
+        if (i > 0 && i <= totalPages) pageNumbers.push(i);
+    }
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -58,13 +64,25 @@ function Home() {
                 ))}
             </div>}
 
-            {!error && !loading && data?.data?.movies && data?.data?.movies?.length === 0 && <p className='text-center'>No movies found</p>}
+            {!error && !loading && data?.data?.movie_count === 0 && <p className='text-center'>No movies found</p>}
 
             {(data?.data?.movie_count > 10) && <div className='flex items-center justify-center mt-4'>
-                <button disabled={data?.data?.page_number == 1} onClick={() => handlePageChange(pageParam - 1)} className='mt-4 px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Prev</button>
+                <button disabled={data?.data?.page_number == 1} onClick={() => handlePageChange(pageParam - 1)} className=' px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Prev</button>
+                {pageNumbers.map((num) => (
+                    <button
+                        key={num}
+                        onClick={() => handlePageChange(num)}
+                        className={`px-4 mx-2 py-2 rounded-lg cursor-pointer ${num === pageParam
+                            ? 'bg-black text-white'
+                            : 'bg-red-500 text-white'
+                            }`}
+                    >
+                        {num}
+                    </button>
+                ))}
                 <button
                     disabled={data?.data?.page_number == Math.round(data?.data?.movie_count / 10)}
-                    onClick={() => handlePageChange(pageParam + 1)} className='mt-4 ml-2 px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Next</button>
+                    onClick={() => handlePageChange(pageParam + 1)} className='px-4 py-2  text-white rounded-lg bg-red-500 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'>Next</button>
             </div>}
         </div>
     )
