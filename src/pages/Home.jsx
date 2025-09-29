@@ -3,34 +3,15 @@ import useMovies from '../hooks/useMovies'
 import SearchComponent from '../components/Search';
 import MovieCard from '../components/MovieCard';
 import MovieCardSkeleton from '../components/MovieCardSkeleton';
-import { useSearchParams } from 'react-router';
 import GenreComponent from '../components/Genre';
 import Error from '../components/Error';
 import { MoveLeft, MoveRight } from 'lucide-react';
+import useParams from '../hooks/useParams';
 
 function Home() {
-    const [params, setParams] = useSearchParams("");
-
-    const queryParam = params.get("query") || "";
-    const pageParam = parseInt(params.get("page") || "1", 10);
-    const genreParams = params.get("genre")
+    const { queryParam, pageParam, genreParams, handleSearch, handlePageChange } = useParams()
 
     const { data, loading, error } = useMovies({ search: queryParam, page: pageParam, genre: genreParams });
-
-
-    const handleSearch = (newQuery) => {
-        const newParams = new URLSearchParams();
-        if (newQuery) newParams.set("query", newQuery);
-        setParams(newParams);
-    };
-
-    const handlePageChange = (newPage) => {
-        const newParams = new URLSearchParams();
-        if (queryParam) newParams.set("query", queryParam);
-        if (genreParams) newParams.set('genre', genreParams);
-        if (newPage > 1) newParams.set("page", newPage);
-        setParams(newParams);
-    };
 
     const pageNumbers = [];
     const totalPages = Math.round(data?.data?.movie_count / 10)
